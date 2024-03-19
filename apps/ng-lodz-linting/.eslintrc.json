@@ -1,0 +1,54 @@
+{
+    "extends": ["../../.eslintrc.json"],
+    "ignorePatterns": ["!**/*"],
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "extends": [
+                "plugin:@nx/angular",
+                "plugin:@angular-eslint/template/process-inline-templates"
+            ],
+            "rules": {
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "linter",
+                        "style": "camelCase"
+                    }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "linter",
+                        "style": "kebab-case"
+                    }
+                ],
+                "@typescript-eslint/no-empty-function": "off"
+            }
+        },
+        {
+            "files": ["*.html"],
+            "extends": ["plugin:@nx/angular-template"],
+            "rules": {}
+        },
+        {
+            "files": ["*.component.ts"],
+            "extends": ["plugin:@nx/typescript"],
+            "rules": {
+                // "@typescript-eslint/no-restricted-imports": [
+                //     "error",
+                //     {
+                //         "patterns": [
+                //             {
+                //                 "group": ["rxjs/*", "rxjs"],
+                //                 "message": "Please use the native methods instead of lodash"
+                //             }
+                //         ]
+                //     }
+                // ]
+            }
+        }
+    ]
+}
