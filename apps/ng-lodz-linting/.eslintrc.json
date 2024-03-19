@@ -25,7 +25,8 @@
                         "style": "kebab-case"
                     }
                 ],
-                "@typescript-eslint/no-empty-function": "off"
+                "@typescript-eslint/no-empty-function": "off",
+                "@nx/workspace-enforce-api-models": "error"
             }
         },
         {
@@ -37,17 +38,7 @@
             "files": ["*.component.ts"],
             "extends": ["plugin:@nx/typescript"],
             "rules": {
-                // "@typescript-eslint/no-restricted-imports": [
-                //     "error",
-                //     {
-                //         "patterns": [
-                //             {
-                //                 "group": ["rxjs/*", "rxjs"],
-                //                 "message": "Please use the native methods instead of lodash"
-                //             }
-                //         ]
-                //     }
-                // ]
+                "@nx/workspace-ban-rxjs-in-components": "error"
             }
         }
     ]
