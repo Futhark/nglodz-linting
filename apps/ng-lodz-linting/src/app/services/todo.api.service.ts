@@ -12,7 +12,7 @@ interface TodoItemApiResponse {
 export interface TodoItem {
     id: number;
     title: string;
-    completed: boolean;
+    isCompleted: boolean;
 }
 
 @Injectable({
@@ -36,6 +36,6 @@ function convertTodoItemApiResponseToTodoItem(
     return {
         id: todo.id,
         title: todo.title,
-        completed: todo.completed,
+        isCompleted: todo.completed,
     };
 }

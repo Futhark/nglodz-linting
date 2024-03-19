@@ -1,3 +1,11 @@
+// Links
+
+-   AST: https://typescript-eslint.io/play/
+-   Kopalnia reguł na których można się wzorować: https://github1s.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/rules/adjacent-overload-signatures.ts
+-   Testy dla angular-eslint: https://github1s.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/tests/rules/component-selector/cases.ts
+-   parser templatek angularowych: https://github1s.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/src/rules/banana-in-box.ts
+-   selektory: https://eslint.org/docs/latest/extend/selectors
+
 // DEMO 1
 
 ```typescript

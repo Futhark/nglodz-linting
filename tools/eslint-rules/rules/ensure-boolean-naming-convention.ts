@@ -47,16 +47,20 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
             },
         ],
         messages: {
-            booleanPropertyShouldHavePrefix: `Boolean property should have prefix.`,
+            booleanPropertyShouldHavePrefix: `Boolean property should have prefix. Available prefixes: {{allowedPrefixes}}`,
+            booleanPropertyShouldHavePrefixSuggestion: `Boolean property should have prefix. Change to {{refactoredPropertyName}}`,
         },
+        fixable: "code",
+        hasSuggestions: true,
     },
     defaultOptions: [
         {
-            allowedPrefixes: ["is", "has"],
+            allowedPrefixes: ["is", "has", "should"],
         },
     ],
     create(context, [options]) {
         const checkBooleanName = (node: TSESTree.Identifier) => {
+            console.log(`^(${options.allowedPrefixes.join("|")})[A-Z]`);
             const propertyName = node.name;
             if (
                 new RegExp(`^(${options.allowedPrefixes.join("|")})[A-Z]`).test(
@@ -69,9 +73,49 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
             context.report({
                 node,
                 messageId: "booleanPropertyShouldHavePrefix",
+                data: {
+                    allowedPrefixes: options.allowedPrefixes.join(", "),
+                },
+                suggest: options.allowedPrefixes.map((prefix) => {
+                    const refactoredPropertyName = `${prefix}${propertyName
+                        .charAt(0)
+                        .toUpperCase()}${propertyName.slice(1)}`;
+
+                    return {
+                        messageId: "booleanPropertyShouldHavePrefixSuggestion",
+                        data: { refactoredPropertyName },
+                        fix: (fixer) => {
+                            return fixer.replaceText(
+                                node,
+                                refactoredPropertyName
+                            );
+                        },
+                    };
+                }),
             });
         };
 
-        return {};
+        let isInApiResponseContext = false;
+
+        return {
+            "TSTypeAnnotation > TSBooleanKeyword"(
+                node: TSESTree.TSBooleanKeyword
+            ) {
+                if (
+                    !isInApiResponseContext &&
+                    node.parent.parent.type ===
+                        AST_NODE_TYPES.TSPropertySignature &&
+                    node.parent.parent.key.type === AST_NODE_TYPES.Identifier
+                ) {
+                    checkBooleanName(node.parent.parent.key);
+                }
+            },
+            "TSInterfaceDeclaration[id.name=/.*ApiResponse/]"() {
+                isInApiResponseContext = true;
+            },
+            "TSInterfaceDeclaration[id.name=/.*ApiResponse/]:exit"() {
+                isInApiResponseContext = false;
+            },
+        };
     },
 });
