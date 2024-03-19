@@ -1,4 +1,8 @@
 import {
+    RULE_NAME as ensureBooleanNamingConventionName,
+    rule as ensureBooleanNamingConvention,
+} from "./rules/ensure-boolean-naming-convention";
+import {
     RULE_NAME as enforceApiModelsName,
     rule as enforceApiModels,
 } from "./rules/enforce-api-models";
@@ -34,5 +38,6 @@ module.exports = {
     rules: {
         [banRxjsInComponentsName]: banRxjsInComponents,
         [enforceApiModelsName]: enforceApiModels,
+        [ensureBooleanNamingConventionName]: ensureBooleanNamingConvention,
     },
 };

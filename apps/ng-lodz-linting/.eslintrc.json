@@ -8,6 +8,12 @@
                 "plugin:@nx/angular",
                 "plugin:@angular-eslint/template/process-inline-templates"
             ],
+            "parserOptions": {
+                "project": [
+                    "apps/ng-lodz-linting/tsconfig.app.json",
+                    "apps/ng-lodz-linting/tsconfig.editor.json"
+                ]
+            },
             "rules": {
                 "@angular-eslint/directive-selector": [
                     "error",
@@ -26,7 +32,13 @@
                     }
                 ],
                 "@typescript-eslint/no-empty-function": "off",
-                "@nx/workspace-enforce-api-models": "error"
+                "@nx/workspace-enforce-api-models": "error",
+                "@nx/workspace-ensure-boolean-naming-convention": [
+                    "warn",
+                    {
+                        "allowedPrefixes": ["is", "has", "can"]
+                    }
+                ]
             }
         },
         {
